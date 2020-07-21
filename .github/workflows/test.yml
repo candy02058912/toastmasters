@@ -31,13 +31,15 @@ jobs:
         ./scripts/deploy_swarm.sh
 
     - name: Test deployment
+      id: test
       run: |
-        curl "localhost:32345/h1?a=1&b=2"
+        result=$(curl "localhost:32345/h1?a=1&b=2" -s)
+        echo "::set-output name=result::$result"
 
     - name: comment PR
       uses: unsplash/comment-on-pr@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        msg: "Check out this message!"
+        msg: "${{steps.test.outputs.result}}"
         check_for_duplicate_msg: false  # OPTIONAL 
