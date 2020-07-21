@@ -12,4 +12,5 @@ docker build -t local/tester -f ./docker/tester.Dockerfile .
   echo 'swarm mode is already init.' 
 }
 
+docker-compose -f ${DIR}/docker-compose/docker-compose.yaml up -d
 docker stack deploy -c ./docker-compose/docker-compose.yaml demo
