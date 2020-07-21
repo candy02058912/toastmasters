@@ -1,0 +1,38 @@
+version: "3.7"
+services:
+  h1-1:
+    image: local/h1
+    restart: always
+    environment:
+      PORT: 10000
+      WAIT_TIME: 1000ms
+    networks:
+      - backend
+  h1-2:
+    image: local/h1
+    restart: always
+    environment:
+      PORT: 10000
+      WAIT_TIME: 500ms
+    networks:
+      - backend
+  h1-3:
+    image: local/h1
+    restart: always
+    environment:
+      PORT: 10000
+      WAIT_TIME: 2000ms
+    networks:
+      - backend
+  nginx:
+    image: local/nginx
+    restart: always
+    ports:
+      - 32345:80
+    networks:
+      - backend
+      - frontend
+
+networks:
+  backend:
+  frontend:
