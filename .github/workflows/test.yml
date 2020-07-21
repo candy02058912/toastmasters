@@ -34,6 +34,7 @@ jobs:
       id: test
       run: |
         result=$(docker exec tester ab -n 1 -c 1 -S -q -w 'nginx/h1?a=1&b=3')
+        result="${result//$'\n'/}"
         echo "::set-output name=result::$result"
 
     - name: Comment result to PR
@@ -41,6 +42,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        msg: | 
-          "${{steps.test.outputs.result}}"
+        msg: "${{steps.test.outputs.result}}"
         check_for_duplicate_msg: false  # OPTIONAL 
