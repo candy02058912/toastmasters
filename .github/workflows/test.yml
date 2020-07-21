@@ -33,3 +33,11 @@ jobs:
     - name: Test deployment
       run: |
         curl "localhost:32345/h1?a=1&b=2"
+
+    - name: comment PR
+      uses: unsplash/comment-on-pr@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        msg: "Check out this message!"
+        check_for_duplicate_msg: false  # OPTIONAL 
