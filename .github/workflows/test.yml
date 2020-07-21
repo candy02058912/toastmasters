@@ -32,5 +32,7 @@ jobs:
 
     - name: Test deployment
       run: |
+        apt update
+        apt install apache2-utils
         chmod +x ./scripts/run.sh
         ./scripts/run.sh
