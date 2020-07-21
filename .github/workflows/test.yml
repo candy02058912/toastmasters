@@ -32,7 +32,4 @@ jobs:
 
     - name: Test deployment
       run: |
-        apt update
-        apt install apache2-utils
-        chmod +x ./scripts/run.sh
-        ./scripts/run.sh
+        curl "localhost:32345/h1?a=1&b=2"
