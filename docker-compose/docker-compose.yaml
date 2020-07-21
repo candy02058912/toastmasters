@@ -32,6 +32,11 @@ services:
     networks:
       - backend
       - frontend
+  tester:
+    image: local/tester
+    restart: always
+    networks:
+      - frontend
 
 networks:
   backend:
