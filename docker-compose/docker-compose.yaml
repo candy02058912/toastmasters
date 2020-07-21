@@ -34,7 +34,6 @@ services:
       - frontend
   tester:
     image: local/tester
-    container_name: tester
     restart: always
     networks:
       - frontend
