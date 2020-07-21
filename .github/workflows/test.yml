@@ -33,7 +33,7 @@ jobs:
     - name: Test deployment
       id: test
       run: |
-        result=$(docker exec tester ab -n 1 -c 1 -S -q -w 'nginx/h1?a=1&b=3')
+        result=$(docker exec tester ab -n 100 -c 100 -S -q -w 'nginx/h1?a=1&b=3')
         result="${result//$'\n'/}"
         echo "::set-output name=result::$result"
 
