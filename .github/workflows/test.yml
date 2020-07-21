@@ -21,11 +21,16 @@ jobs:
     - uses: actions/checkout@v2
 
     # Runs a single command using the runners shell
-    - name: Run a one-line script
+    - name: Echo start
       run: echo start
 
     # Runs a set of commands using the runners shell
-    - name: Run a multi-line script
+    - name: Deploy swarm
       run: |
         chmod +x ./scripts/deploy_swarm.sh
         ./scripts/deploy_swarm.sh
+
+    - name: Test deployment
+      run: |
+        chmod +x ./scripts/run.sh
+        ./scripts/run.sh
