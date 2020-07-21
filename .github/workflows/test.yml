@@ -33,7 +33,7 @@ jobs:
     - name: Test deployment
       id: test
       run: |
-        result=$(curl "localhost:32345/h1?a=1&b=2" -s)
+        result=$(docker exec -it tester ab -n 1 -c 1 -S -q -w 'nginx/h1?a=1&b=3')
         echo "::set-output name=result::$result"
 
     - name: comment PR
