@@ -12,7 +12,7 @@ import (
 	"github.com/gorilla/sessions"
 )
 
-var bufferSize int = 2
+var bufferSize int = 1
 
 type impl struct {
 	waitTime time.Duration
