@@ -29,6 +29,11 @@ jobs:
       run: |
         chmod +x ./scripts/deploy_swarm.sh
         ./scripts/deploy_swarm.sh
+    
+    - name: Set replica
+      run: |
+        chmod +x ./scripts/scale_swarm.sh
+        ./scripts/scale_swarm.sh -r 3
 
     - name: Test deployment
       id: test
