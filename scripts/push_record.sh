@@ -3,7 +3,7 @@ set -e
 
 username=$1
 SCORE=$2
-AK=＄3
+AK=$3
 
 id=$(curl "https://api.airtable.com/v0/appxj3f7gzCBEB9JL/tbllhRwtGFi3m1Dmx?fields%5B%5D=username&filterByFormula=%7Busername%7D+%3D+%27$username%27&maxRecords=1" \
   -H "Authorization: Bearer $AK" \
