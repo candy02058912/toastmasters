@@ -44,12 +44,14 @@ jobs:
       id: test
       run: |
         name=$(docker ps -aqf "name=demo_tester")
-        result=$(docker exec $name ab -n 100 -c 100 -S -q -w 'nginx/h1?a=1&b=3' | tail -n +9)
+        result=$(docker exec $name ab -n 1 -c 1 -S -q -w 'nginx/h1?a=1&b=3' | tail -n +9)
         score=$(echo "$result" | grep 'Time taken for tests:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: ]//g')
         penalty=$(echo "$result" | grep 'Failed requests:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: ]//g')
-        total=$(printf %d "$score"+"$penalty")
-        result="${result//$'\n'/}"
+        echo $score
+        echo $penalty
+        total=$(printf %.2f "$score"+"$penalty")
         echo $total
+        result="${result//$'\n'/}"
         echo "::set-output name=result::$result"
         echo "::set-output name=score::$total"
 
