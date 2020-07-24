@@ -49,7 +49,7 @@ jobs:
         penalty=$(echo "$result" | grep 'Failed requests:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: ]//g')
         echo $score
         echo $penalty
-        total=$(printf %.2f "$score"+"$penalty")
+        total=$(python -c "print($score+$penalty)")
         echo $total
         result="${result//$'\n'/}"
         echo "::set-output name=result::$result"
