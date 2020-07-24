@@ -49,6 +49,7 @@ jobs:
         penalty=$(echo "$result" | grep 'Failed requests:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: ]//g')
         total=$((score+penalty))
         result="${result//$'\n'/}"
+        echo $total
         echo "::set-output name=result::$result"
         echo "::set-output name=score::$total"
 
