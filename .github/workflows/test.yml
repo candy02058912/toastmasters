@@ -22,9 +22,11 @@ jobs:
 
     - name: Check if files changed
       run: |
-        EXIT_CODE=$(git diff --stat | grep -c -E "test.yml|push_record.sh")
-        if [ EXIT_CODE -ne 0 ]; then
-          echo "Please do not change test.yml and push_record.sh"
+        URL="https://api.github.com/repos/candy02058912/toastmasters/pulls/${{ github.event.pull_request.number }}/files"
+        FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
+        echo $FILES
+        if [ $(echo $FILES | grep -c -E "test.yml|push_record.sh") = 1 ]; then
+          echo -e "Detected changes to test.yml or push_record.sh"
           exit 1
         fi
 
