@@ -6,7 +6,7 @@ function help() {
 }
 
 # read flags.
-while getopts v:h option
+while getopts vh option
 do
   case $option in
   v)  VERBOSE="true";;
