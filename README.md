@@ -10,16 +10,25 @@ There are three kinds of toast machines, each for a different kind of toast.
 | | <img src="images/plain_toast.png" width="100" /> | <img src="images/chocolate_toast.png" width="100" /> | <img src="images/strawberry_toast.png" width="100" /> |
 | Service Id | 1 | 2 | 3 |
 
-Each kind of toast machine may have different behaviors, our goal is to process 100 toasts (requests) in the shortest amount of time with the least burnt out toasts (failed requests).
+### Architecture
+
+<img src="images/toast_master.png" />
+
+Note: Each kind of toast machine may possess different behaviors.
+
+### Goal
+
+Process 100 toasts (requests) in the shortest amount of time with the least burnt out toasts (failed requests).
 
 [Click to see the leaderboard](https://airtable.com/shrWeznHPw24IlKcZ/tbllhRwtGFi3m1Dmx)
 
 Score formula: Time taken to process 100 toasts (requests) + Burnt out toasts (failed requests as penalty)
-The lower the score, the better you are!
+
+The **lower** the score, the better you are!
 
 ## Project Objectives
 
-**Main goal: Practice applying horizontal scaling and load balancing strategies.**
+**Main objective: Practice applying horizontal scaling and load balancing strategies.**
 
 Side effect: Become a toast master!
 
