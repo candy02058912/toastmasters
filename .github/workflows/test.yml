@@ -36,7 +36,7 @@ jobs:
         ./scripts/deploy_swarm.sh
 
     - name: Test deployment (low concurrency)
-      id: test
+      id: test1
       run: |
         name=$(docker ps -aqf "name=demo_tester")
         result1=$(docker exec $name ab -n 50 -c 9 -l -S -q -w 'nginx/h1?a=1&b=3' | tail -n +9)
@@ -53,7 +53,7 @@ jobs:
         ./scripts/scale_swarm.sh $(awk '{if (NR != 0) {print "-s " $1 " -r " $2 }}' scale.conf)
 
     - name: Test deployment (high concurrency)
-      id: test
+      id: test2
       run: |
         name=$(docker ps -aqf "name=demo_tester")
         result2=$(docker exec $name ab -n 50 -c 50 -l -S -q -w 'nginx/h1?a=1&b=3' | tail -n +9)
