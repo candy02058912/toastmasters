@@ -38,6 +38,7 @@ jobs:
     - name: Test deployment (low concurrency)
       run: |
         name=$(docker ps -aqf "name=demo_tester")
+        echo $(docker ps -a)
         result1=$(docker exec $name ab -n 50 -c 9 -l -S -q -w 'nginx/h1' | tail -n +9)
         score1=$(echo "$result1" | grep 'Time taken for tests:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: ]//g')
         penalty1=$(echo "$result1" | grep 'Non-2xx responses:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: -]//g' || echo 0)
