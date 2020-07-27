@@ -1,27 +1,45 @@
 version: "3.7"
 services:
-  h1-1:
+  plain:
     image: local/h1
     restart: always
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 5M
     environment:
       PORT: 10000
-      WAIT_TIME: 1000ms
+      TYPE: plain
     networks:
       - backend
-  h1-2:
+  chocolate:
     image: local/h1
     restart: always
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 5M
     environment:
       PORT: 10000
-      WAIT_TIME: 500ms
+      TYPE: chocolate
     networks:
       - backend
-  h1-3:
+  strawberry:
     image: local/h1
     restart: always
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 5M
     environment:
       PORT: 10000
-      WAIT_TIME: 2000ms
+      TYPE: strawberry
     networks:
       - backend
   nginx:

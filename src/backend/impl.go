@@ -14,14 +14,25 @@ import (
 
 var bufferSize int = 1
 
+var waitTimeMap = map[string]string{
+	"plain":      "1000ms",
+	"chocolate":  "2500ms",
+	"strawberry": "3000ms",
+}
+
 type impl struct {
-	waitTime time.Duration
-	c        chan int
+	waitTime  time.Duration
+	toastType string
+	c         chan int
 }
 
 var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
 
 func (s *impl) h1Handler(w http.ResponseWriter, r *http.Request) {
+	// occupy some memory for no reason.
+	var a [100000]int
+	a[2] = 1
+
 	req := h1request{}
 	schema.NewDecoder().Decode(&req, r.URL.Query())
 
@@ -31,14 +42,14 @@ func (s *impl) h1Handler(w http.ResponseWriter, r *http.Request) {
 	time.Sleep(s.waitTime)
 
 	resp := h1response{
-		Answer:    req.A + req.B,
+		Output:    s.toastType,
 		TimeStamp: time.Now().Unix(),
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(resp)
 
-	s.c <- tmp + 1
+	s.c <- tmp + 1 + a[3]
 }
 
 func (s *impl) h2Handler(w http.ResponseWriter, r *http.Request) {
@@ -53,16 +64,22 @@ func (s *impl) h2Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 // NewServer creates a server implementation for tutorial.
-func NewServer(port string, waitTime time.Duration) http.Server {
+func NewServer(port string, toastType string) http.Server {
 	r := mux.NewRouter()
 
+	wt, err := time.ParseDuration(waitTimeMap[toastType])
+	if err != nil {
+		log.Fatalf("error time duration format %s: %v", waitTimeMap[toastType], err)
+	}
+
 	i := impl{
-		waitTime: waitTime,
-		c:        make(chan int, bufferSize),
+		waitTime:  wt,
+		toastType: toastType,
+		c:         make(chan int, bufferSize),
 	}
 
 	for idx := 0; idx < bufferSize; idx++ {
-		i.c <- 0
+		i.c <- idx
 	}
 
 	r.HandleFunc("/h1", i.h1Handler).Methods("GET")

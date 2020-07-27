@@ -34,32 +34,45 @@ jobs:
       run: |
         chmod +x ./scripts/deploy_swarm.sh
         ./scripts/deploy_swarm.sh
+
+    - name: Test deployment (low concurrency)
+      id: test
+      run: |
+        name=$(docker ps -aqf "name=demo_tester")
+        result1=$(docker exec $name ab -n 50 -c 9 -l -S -q -w 'nginx/h1?a=1&b=3' | tail -n +9)
+        score1=$(echo "$result1" | grep 'Time taken for tests:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: ]//g')
+        penalty1=$(echo "$result1" | grep 'Non-2xx responses:' || echo 0 | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: ]//g')
+        total1=$(python -c "print($score1+$penalty1)")
+        result1="${result1//$'\n'/}"
+        echo "::set-output name=result1::$result1"
+        echo "::set-output name=score1::$total1"
     
     - name: Set replica
       run: |
         chmod +x ./scripts/scale_swarm.sh
         ./scripts/scale_swarm.sh $(awk '{if (NR != 0) {print "-s " $1 " -r " $2 }}' scale.conf)
 
-    - name: Test deployment
+    - name: Test deployment (high concurrency)
       id: test
       run: |
         name=$(docker ps -aqf "name=demo_tester")
-        result=$(docker exec $name ab -n 100 -c 100 -S -q -w 'nginx/h1?a=1&b=3' | tail -n +9)
-        score=$(echo "$result" | grep 'Time taken for tests:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: ]//g')
-        penalty=$(echo "$result" | grep 'Failed requests:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: ]//g')
-        total=$(python -c "print($score+$penalty)")
-        result="${result//$'\n'/}"
-        echo "::set-output name=result::$result"
-        echo "::set-output name=score::$total"
+        result2=$(docker exec $name ab -n 50 -c 50 -l -S -q -w 'nginx/h1?a=1&b=3' | tail -n +9)
+        score2=$(echo "$result2" | grep 'Time taken for tests:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: ]//g')
+        penalty2=$(echo "$result2" | grep 'Non-2xx responses:' || echo 0 | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: ]//g')
+        total2=$(python -c "print($score2+$penalty2)")
+        result2="${result2//$'\n'/}"
+        echo "::set-output name=result2::$result2"
+        echo "::set-output name=score2::$total2"
 
     - name: Push to AirTable
       run: |
         name=$(docker ps -aqf "name=demo_tester")
         docker exec $name sh /push_record.sh ${{ github.actor }} ${{steps.test.outputs.score}} ${{ secrets.AIRTABLE_API_KEY }}
+
     - name: Comment result to PR
       uses: unsplash/comment-on-pr@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        msg: "${{steps.test.outputs.result}}"
+        msg: "Test 1: ${{steps.test.outputs.result1}}\nTest 2: ${{steps.test.outputs.result2}}"
         check_for_duplicate_msg: false  # OPTIONAL 

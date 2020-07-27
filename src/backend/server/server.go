@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"svr"
-	"time"
 )
 
 func getEnv(key, fallback string) string {
@@ -16,18 +15,14 @@ func getEnv(key, fallback string) string {
 }
 
 var (
-	port     = getEnv("PORT", "8080")
-	waitTime = getEnv("WAIT_TIME", "1000ms")
+	port      = getEnv("PORT", "8080")
+	toastType = getEnv("TYPE", "plain")
 )
 
 func main() {
 	fmt.Println("start server")
-	wt, err := time.ParseDuration(waitTime)
-	if err != nil {
-		log.Fatalf("error time duration format %s: %v", waitTime, err)
-	}
 
-	server := svr.NewServer(port, wt)
+	server := svr.NewServer(port, toastType)
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

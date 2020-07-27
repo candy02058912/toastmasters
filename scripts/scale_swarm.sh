@@ -23,16 +23,14 @@ done
 if [ ${#SVC[@]} = "0" ]; then
   echo "scale all services."
   if [ ${#REP[@]} = "1" ]; then
-    docker service update --replicas $REP demo_h1-1 
-    docker service update --replicas $REP demo_h1-2 
-    docker service update --replicas $REP demo_h1-3
+    docker service update --replicas $REP demo_plain 
+    docker service update --replicas $REP demo_chocolate
+    docker service update --replicas $REP demo_strawberry
   else
     echo "should only have one -r if not specify service id."
     exit 1
   fi
-fi
-
-if [ ${#SVC[@]} != ${#REP[@]} ]; then
+elif [ ${#SVC[@]} != ${#REP[@]} ]; then
   echo "numbers of service id and replica mismatch."
   exit 1
 fi
@@ -41,10 +39,10 @@ NUM=${#SVC[@]}
 for (( i=0; i<$NUM; i++ ))
 do
   if [ "${SVC[i]}" == "1" ]; then
-    docker service update --replicas ${REP[$i]} demo_h1-1
+    docker service update --replicas ${REP[$i]} demo_plain
   elif [ ${SVC[$i]} == "2" ]; then
-    docker service update --replicas ${REP[$i]} demo_h1-2
+    docker service update --replicas ${REP[$i]} demo_chocolate
   elif [ ${SVC[$i]} == "3" ]; then
-    docker service update --replicas ${REP[$i]} demo_h1-3
+    docker service update --replicas ${REP[$i]} demo_strawberry
   fi
 done
