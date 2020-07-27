@@ -35,10 +35,10 @@ jobs:
         chmod +x ./scripts/deploy_swarm.sh
         ./scripts/deploy_swarm.sh
 
-    - name: Test deployment (low concurrency)
+    - name: Low concurrency test
       run: |
         name=$(docker ps -aqf "name=demo_tester")
-        echo $(docker ps -a)
+        docker ps -a | grep tester
         result1=$(docker exec $name ab -n 50 -c 9 -l -S -q -w 'nginx/h1' | tail -n +9)
         score1=$(echo "$result1" | grep 'Time taken for tests:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: ]//g')
         penalty1=$(echo "$result1" | grep 'Non-2xx responses:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: -]//g' || echo 0)
@@ -52,7 +52,7 @@ jobs:
         chmod +x ./scripts/scale_swarm.sh
         ./scripts/scale_swarm.sh $(awk '{if (NR != 0) {print "-s " $1 " -r " $2 }}' scale.conf)
 
-    - name: Test deployment (high concurrency)
+    - name: High concurrenct test
       run: |
         name=$(docker ps -aqf "name=demo_tester")
         result2=$(docker exec $name ab -n 50 -c 50 -l -S -q -w 'nginx/h1' | tail -n +9)
