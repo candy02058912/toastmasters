@@ -36,10 +36,9 @@ jobs:
         ./scripts/deploy_swarm.sh
 
     - name: Test deployment (low concurrency)
-      id: test1
       run: |
         name=$(docker ps -aqf "name=demo_tester")
-        result1=$(docker exec $name ab -n 50 -c 9 -l -S -q -w 'nginx/h1?a=1&b=3' | tail -n +9)
+        result1=$(docker exec $name ab -n 50 -c 9 -l -S -q -w 'nginx/h1' | tail -n +9)
         score1=$(echo "$result1" | grep 'Time taken for tests:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: ]//g')
         penalty1=$(echo "$result1" | grep 'Non-2xx responses:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: -]//g' || echo 0)
         total1=$(python -c "print($score1+$penalty1)")
@@ -53,10 +52,9 @@ jobs:
         ./scripts/scale_swarm.sh $(awk '{if (NR != 0) {print "-s " $1 " -r " $2 }}' scale.conf)
 
     - name: Test deployment (high concurrency)
-      id: test2
       run: |
         name=$(docker ps -aqf "name=demo_tester")
-        result2=$(docker exec $name ab -n 50 -c 50 -l -S -q -w 'nginx/h1?a=1&b=3' | tail -n +9)
+        result2=$(docker exec $name ab -n 50 -c 50 -l -S -q -w 'nginx/h1' | tail -n +9)
         score2=$(echo "$result2" | grep 'Time taken for tests:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: ]//g')
         penalty2=$(echo "$result2" | grep 'Non-2xx responses:' | sed -e 's/<[^>]*>//g' | sed -e 's/[A-Za-z: -]//g' || echo 0)
         total2=$(python -c "print($score2+$penalty2)")
