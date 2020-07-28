@@ -34,6 +34,8 @@ Please adjust the load balancing strategy through `nginx.conf` in order to succe
 
 <img src="images/nginx-example.png" />
 
+Documentation: https://nginx.org/en/docs/http/load_balancing.html
+
 ### Part 2: The Final Challenge
 
 Process 50 toasts (requests) in the shortest amount of time with the least failure (failed requests).
