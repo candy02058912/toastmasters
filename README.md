@@ -32,11 +32,7 @@ For this part, you will be restricted to **1 replica** of each kind of toast mac
 
 Please adjust the load balancing strategy through `nginx.conf` in order to successfully process all of the toasts without failures.
 
-Example
-
-```
-```
-
+<img src="images/nginx-example.png" />
 
 ### Part 2: The Final Challenge
 
