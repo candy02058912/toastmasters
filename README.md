@@ -16,21 +16,36 @@ There are three kinds of toast machines, each for a different kind of toast.
 
 Note: Each kind of toast machine may possess different behaviors.
 
-### Goal
-
-Process 100 toasts (requests) in the shortest amount of time with the least burnt out toasts (failed requests).
-
-[Click to see the leaderboard](https://airtable.com/shrWeznHPw24IlKcZ/tbllhRwtGFi3m1Dmx)
-
-Score formula: Time taken to process 100 toasts (requests) + Burnt out toasts (failed requests as penalty)
-
-The **lower** the score, the better you are!
-
 ## Project Objectives
 
 **Main objective: Practice applying horizontal scaling and load balancing strategies.**
 
 Side effect: Become a toast master!
+
+## Challenges
+
+### Part 1: Apply a Load Balancing Strategy
+
+Each toast machine is limited to processing **4 toasts (requests) concurrently**, if you go over this number, then the toast machine will burn out and produce failures.
+For this part, you will be restricted to **1 replica** of each kind of toast machine.
+Please adjust the load balancing strategy through `nginx.conf` in order to successfully process all of the toasts without failures.
+
+Example
+
+```
+```
+
+
+### Part 2: The Final Challenge
+
+Process 50 toasts (requests) in the shortest amount of time with the least failure (failed requests).
+You can adjust the load balancing strategy and number of replicas of each kind of toast machines freely.
+
+[Click to see the leaderboard](https://airtable.com/shrWeznHPw24IlKcZ/tbllhRwtGFi3m1Dmx)
+
+Score formula: Time taken to process 50 toasts (requests) + number of failures (failed requests as penalty)
+
+The **lower** the score, the better you are!
 
 ## Getting Started
 
