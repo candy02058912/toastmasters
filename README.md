@@ -9,8 +9,9 @@ There are three kinds of toast machines, each for a different kind of toast.
 | ---------- | :----------------------------------------------: | :--------------------------------------------------: | :---------------------------------------------------: |
 | | <img src="images/plain_toast.png" width="100" /> | <img src="images/chocolate_toast.png" width="100" /> | <img src="images/strawberry_toast.png" width="100" /> |
 | Service Id | 1 | 2 | 3 |
+| Process time | 3s | 2.5s | 1s |
 
-Note: Each kind of toast machine may possess different behaviors.
+Note: Each kind of toast machine have different process time.
 
 ### Architecture
 
