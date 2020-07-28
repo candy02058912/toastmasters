@@ -16,7 +16,7 @@ do
 done
 
 if [ "$VERBOSE" = "true" ]; then
-  ab -n 100 -c 4 -S -q 'localhost:32345/h1?a=1&b=3'
+  ab -n 30 -c 4 -S -q -l 'localhost:32345/h1?a=1&b=3'
 else
-  ab -n 100 -c 4 -S -q 'localhost:32345/h1?a=1&b=3' | grep 'Time taken for tests:'
+  ab -n 30 -c 4 -S -q -l 'localhost:32345/h1?a=1&b=3' | grep 'Time taken for tests:'
 fi
