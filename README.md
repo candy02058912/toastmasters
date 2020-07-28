@@ -34,7 +34,74 @@ Please adjust the load balancing strategy through `nginx.conf` in order to succe
 
 <img src="images/nginx-example.png" />
 
-Documentation: https://nginx.org/en/docs/http/load_balancing.html
+#### Examples
+
+##### Round Robin (default)
+
+Evenly dispatch to each server.
+
+```
+http {
+  upstream h1servers {
+    server plain:10000;
+    server chocolate:10000;
+    server strawberry:10000;
+  }
+  server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    location /h1 {
+      proxy_pass http://h1servers;
+    }
+  }
+}
+```
+
+##### Weighted Round Robin
+
+e.g. for every 6(3+2+1) request,
+plain will get 3, chocolate will get 2, strawberry will get the last one.
+
+```
+http {
+  upstream h1servers {
+    server plain:10000 weight=3;
+    server chocolate:10000 weight=2;
+    server strawberry:10000 weight=1;
+  }
+  server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    location /h1 {
+      proxy_pass http://h1servers;
+    }
+  }
+}
+```
+
+##### Least Connection
+
+Choose the server that currently holds least connections.
+
+```
+http {
+  upstream h1servers {
+    least_conn;
+    server plain:10000;
+    server chocolate:10000;
+    server strawberry:10000;
+  }
+  server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    location /h1 {
+      proxy_pass http://h1servers;
+    }
+  }
+}
+```
+
+Read more: https://nginx.org/en/docs/http/load_balancing.html
 
 ### Part 2 (High Concurrency Test): Experiment with Different Replica Settings
 
