@@ -97,5 +97,5 @@ Example
 
 ## Files to be edited for submission:
 
-- `scale.conf`
 - `src/nginx/nginx.conf`
+- `scale.conf`

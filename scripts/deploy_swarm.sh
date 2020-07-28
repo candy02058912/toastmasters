@@ -2,11 +2,11 @@
 set -e
 DIR=$(echo $(cd $(dirname ${BASH_SOURCE[0]})/.. && pwd))
 
-{
-  docker swarm leave --force
-} || {
-  echo 'cleanup.'
-}
+# {
+#   docker swarm leave --force
+# } || {
+#   echo 'cleanup.'
+# }
 
 docker build -t local/nginx -f ${DIR}/docker/nginx.Dockerfile ${DIR}/src/nginx
 docker build -t local/h1 -f ${DIR}/docker/backend.Dockerfile ${DIR}/src/backend
