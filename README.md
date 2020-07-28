@@ -28,7 +28,7 @@ Side effect: Become a toast master!
 
 **Test description: 50 requests in total, with 9 requests at the same time at most.**
 
-Each toast machine is limited to processing **4 toasts (requests) concurrently**, if you go over this number, then the toast machine will burn out and produce failures.
+Each toast machine is limited to processing **3 toasts (requests) concurrently**, if you go over this number, then the toast machine will burn out and produce failures.
 
 For this part, you will be restricted to **1 replica** of each kind of toast machine.
 
@@ -162,8 +162,12 @@ scripts/scale_swarm.sh -r 3
 Usage
 
 ```
-# Verbose mode
-scripts/run.sh -v
+# Test 1
+scripts/run.sh -t 1
+# Test 2
+scripts/run.sh -t 2
+# Test 1 & 2
+scrupts/run.sh
 ```
 
 #### Edit `src/nginx/nginx.conf`
