@@ -113,7 +113,7 @@ Process 50 toasts (requests) in the shortest amount of time with the least failu
 
 You can adjust the load balancing strategy and number of replicas of each kind of toast machines freely.
 
-[Click to see the leaderboard](https://airtable.com/shrWeznHPw24IlKcZ/tbllhRwtGFi3m1Dmx)
+### [Click to see the leaderboard](https://airtable.com/shrWeznHPw24IlKcZ/tbllhRwtGFi3m1Dmx)
 
 Score formula: Time taken to process 50 toasts (requests) + number of failures (failed requests as penalty)
 
