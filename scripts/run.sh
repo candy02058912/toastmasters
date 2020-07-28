@@ -1,22 +1,29 @@
 #!/bin/bash
 
 function help() {
-  echo "Usage: [-v verbose]"
-  echo "-v: verbose"
+  echo "Usage: [-t testcase, 1 or 2]"
+  echo "-t: testcase, default to 1"
 }
 
 # read flags.
-while getopts vh option
+while getopts ht: option
 do
   case $option in
-  v)  VERBOSE="true";;
+  t)  TEST=$OPTARG;;
   *)  help
       exit 1
   esac
 done
 
-if [ "$VERBOSE" = "true" ]; then
-  ab -n 100 -c 4 -S -q 'localhost:32345/h1?a=1&b=3'
-else
-  ab -n 100 -c 4 -S -q 'localhost:32345/h1?a=1&b=3' | grep 'Time taken for tests:'
+if [ "$TEST" = "1" ]; then
+  echo "TEST 1: Low concurrency test"
+  ab -n 50 -c 9 -S -q -l 'localhost:32345/h1'
+elif [ "$TEST" = "2" ]; then
+  echo "TEST 2: High concurrency test"
+  ab -n 50 -c 50 -S -q -l 'localhost:32345/h1'
+else 
+  echo "TEST 1: Low concurrency test"
+  ab -n 50 -c 9 -S -q -l 'localhost:32345/h1'
+  echo "TEST 2: High concurrency test"
+  ab -n 50 -c 50 -S -q -l 'localhost:32345/h1'
 fi
