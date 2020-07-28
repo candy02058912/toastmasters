@@ -26,6 +26,8 @@ Side effect: Become a toast master!
 
 ### Part 1 (Low Concurrency Test): Choose a Suitable Load Balancing Strategy
 
+**Test description: 50 requests in total, with 9 requests at the same time at most.**
+
 Each toast machine is limited to processing **4 toasts (requests) concurrently**, if you go over this number, then the toast machine will burn out and produce failures.
 
 For this part, you will be restricted to **1 replica** of each kind of toast machine.
@@ -104,6 +106,8 @@ http {
 Read more: https://nginx.org/en/docs/http/load_balancing.html
 
 ### Part 2 (High Concurrency Test): Experiment with Different Replica Settings
+
+**Test description: 50 requests in total, with 50 requests at the same time at most.**
 
 Process 50 toasts (requests) in the shortest amount of time with the least failure (failed requests).
 
