@@ -27,7 +27,9 @@ Side effect: Become a toast master!
 ### Part 1: Apply a Load Balancing Strategy
 
 Each toast machine is limited to processing **4 toasts (requests) concurrently**, if you go over this number, then the toast machine will burn out and produce failures.
+
 For this part, you will be restricted to **1 replica** of each kind of toast machine.
+
 Please adjust the load balancing strategy through `nginx.conf` in order to successfully process all of the toasts without failures.
 
 Example
@@ -39,6 +41,7 @@ Example
 ### Part 2: The Final Challenge
 
 Process 50 toasts (requests) in the shortest amount of time with the least failure (failed requests).
+
 You can adjust the load balancing strategy and number of replicas of each kind of toast machines freely.
 
 [Click to see the leaderboard](https://airtable.com/shrWeznHPw24IlKcZ/tbllhRwtGFi3m1Dmx)
