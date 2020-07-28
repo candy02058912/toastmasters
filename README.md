@@ -152,7 +152,7 @@ Example
 
 ```
 # set service 1 to 1 replica and set service 2 to 2 replicas
-srcipts/scale_swarm.sh -s 1 -s 2 -r 1 -r 2
+srcipts/scale_swarm.sh -s 1 -r 1 -s 2 -r 2
 
 # set all services to 3 replicas
 scripts/scale_swarm.sh -r 3
