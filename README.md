@@ -24,7 +24,7 @@ Side effect: Become a toast master!
 
 ## Challenges
 
-### Part 1: Apply a Load Balancing Strategy
+### Part 1 (Low Concurrency Test): Choose a Suitable Load Balancing Strategy
 
 Each toast machine is limited to processing **4 toasts (requests) concurrently**, if you go over this number, then the toast machine will burn out and produce failures.
 
@@ -36,7 +36,7 @@ Please adjust the load balancing strategy through `nginx.conf` in order to succe
 
 Documentation: https://nginx.org/en/docs/http/load_balancing.html
 
-### Part 2: The Final Challenge
+### Part 2 (High Concurrency Test): Experiment with Different Replica Settings
 
 Process 50 toasts (requests) in the shortest amount of time with the least failure (failed requests).
 
@@ -99,9 +99,12 @@ scripts/run.sh -v
 
 Edit `src/nginx/nginx.conf` for adjusting load balancing strategies, please run `scripts/deploy_swarm.sh` when the file is changed, documentation: https://nginx.org/en/docs/http/load_balancing.html
 
-### 4. Submit Project
+### 4. Submit Project 
+Files involved: `nginx.conf`, `scale.conf`
 
-- Edit `scale.conf` with your desired number of replicas, this will be used during submission
+- Edit `nginx.conf` for your desired load balancing strategy
+
+- Edit `scale.conf` with your desired number of replicas
 
 - Open a Pull Request, documentation: https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request
 
@@ -109,9 +112,4 @@ Edit `src/nginx/nginx.conf` for adjusting load balancing strategies, please run 
 
 Example
 
-<table ><tr ><th colspan=2 bgcolor=white>Server Software:</th><td colspan=2 bgcolor=white>nginx/1.17.8</td></tr><tr ><th colspan=2 bgcolor=white>Server Hostname:</th><td colspan=2 bgcolor=white>nginx</td></tr><tr ><th colspan=2 bgcolor=white>Server Port:</th><td colspan=2 bgcolor=white>80</td></tr><tr ><th colspan=2 bgcolor=white>Document Path:</th><td colspan=2 bgcolor=white>/h1?a=1&b=3</td></tr><tr ><th colspan=2 bgcolor=white>Document Length:</th><td colspan=2 bgcolor=white>37 bytes</td></tr><tr ><th colspan=2 bgcolor=white>Concurrency Level:</th><td colspan=2 bgcolor=white>100</td></tr><tr ><th colspan=2 bgcolor=white>Time taken for tests:</th><td colspan=2 bgcolor=white>73.527 seconds</td></tr><tr ><th colspan=2 bgcolor=white>Complete requests:</th><td colspan=2 bgcolor=white>100</td></tr><tr ><th colspan=2 bgcolor=white>Failed requests:</th><td colspan=2 bgcolor=white>10</td></tr><tr ><td colspan=4 bgcolor=white >   (Connect: 0, Length: 10, Exceptions: 0)</td></tr><tr ><th colspan=2 bgcolor=white>Non-2xx responses:</th><td colspan=2 bgcolor=white>9</td></tr><tr ><th colspan=2 bgcolor=white>Total transferred:</th><td colspan=2 bgcolor=white>19521 bytes</td></tr><tr ><th colspan=2 bgcolor=white>HTML transferred:</th><td colspan=2 bgcolor=white>4743 bytes</td></tr><tr ><th colspan=2 bgcolor=white>Requests per second:</th><td colspan=2 bgcolor=white>1.36</td></tr><tr ><th colspan=2 bgcolor=white>Transfer rate:</th><td colspan=2 bgcolor=white>0.26 kb/s received</td></tr><tr ><th bgcolor=white colspan=4>Connnection Times (ms)</th></tr><tr ><th bgcolor=white>&nbsp;</th> <th bgcolor=white>min</th>   <th bgcolor=white>avg</th>   <th bgcolor=white>max</th></tr><tr ><th bgcolor=white>Connect:</th><td bgcolor=white>    0</td><td bgcolor=white>    7</td><td bgcolor=white>   13</td></tr><tr ><th bgcolor=white>Processing:</th><td bgcolor=white>  507</td><td bgcolor=white>22516</td><td bgcolor=white>72509</td></tr><tr ><th bgcolor=white>Total:</th><td bgcolor=white>  507</td><td bgcolor=white>22523</td><td bgcolor=white>72522</td></tr></table>
-
-## Files to be edited for submission:
-
-- `scale.conf`
-- `src/nginx/nginx.conf`
+<table ><tr ><th colspan=2 bgcolor=white>Server Software:</th><td colspan=2 bgcolor=white>nginx/1.17.8</td></tr><tr ><th colspan=2 bgcolor=white>Server Hostname:</th><td colspan=2 bgcolor=white>nginx</td></tr><tr ><th colspan=2 bgcolor=white>Server Port:</th><td colspan=2 bgcolor=white>80</td></tr><tr ><th colspan=2 bgcolor=white>Document Path:</th><td colspan=2 bgcolor=white>/h1</td></tr><tr ><th colspan=2 bgcolor=white>Document Length:</th><td colspan=2 bgcolor=white>37 bytes</td></tr><tr ><th colspan=2 bgcolor=white>Concurrency Level:</th><td colspan=2 bgcolor=white>100</td></tr><tr ><th colspan=2 bgcolor=white>Time taken for tests:</th><td colspan=2 bgcolor=white>73.527 seconds</td></tr><tr ><th colspan=2 bgcolor=white>Complete requests:</th><td colspan=2 bgcolor=white>100</td></tr><tr ><th colspan=2 bgcolor=white>Failed requests:</th><td colspan=2 bgcolor=white>10</td></tr><tr ><td colspan=4 bgcolor=white >   (Connect: 0, Length: 10, Exceptions: 0)</td></tr><tr ><th colspan=2 bgcolor=white>Non-2xx responses:</th><td colspan=2 bgcolor=white>9</td></tr><tr ><th colspan=2 bgcolor=white>Total transferred:</th><td colspan=2 bgcolor=white>19521 bytes</td></tr><tr ><th colspan=2 bgcolor=white>HTML transferred:</th><td colspan=2 bgcolor=white>4743 bytes</td></tr><tr ><th colspan=2 bgcolor=white>Requests per second:</th><td colspan=2 bgcolor=white>1.36</td></tr><tr ><th colspan=2 bgcolor=white>Transfer rate:</th><td colspan=2 bgcolor=white>0.26 kb/s received</td></tr><tr ><th bgcolor=white colspan=4>Connnection Times (ms)</th></tr><tr ><th bgcolor=white>&nbsp;</th> <th bgcolor=white>min</th>   <th bgcolor=white>avg</th>   <th bgcolor=white>max</th></tr><tr ><th bgcolor=white>Connect:</th><td bgcolor=white>    0</td><td bgcolor=white>    7</td><td bgcolor=white>   13</td></tr><tr ><th bgcolor=white>Processing:</th><td bgcolor=white>  507</td><td bgcolor=white>22516</td><td bgcolor=white>72509</td></tr><tr ><th bgcolor=white>Total:</th><td bgcolor=white>  507</td><td bgcolor=white>22523</td><td bgcolor=white>72522</td></tr></table>
