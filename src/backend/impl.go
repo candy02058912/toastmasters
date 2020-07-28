@@ -15,9 +15,9 @@ import (
 var bufferSize int = 1
 
 var waitTimeMap = map[string]string{
-	"plain":      "1000ms",
+	"plain":      "3000ms",
 	"chocolate":  "2500ms",
-	"strawberry": "3000ms",
+	"strawberry": "1000ms",
 }
 
 type impl struct {
