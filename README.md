@@ -164,10 +164,19 @@ Usage
 ```
 # Test 1
 scripts/run.sh -t 1
+
 # Test 2
 scripts/run.sh -t 2
+
 # Test 1 & 2
 scrupts/run.sh
+```
+
+The metrics you should take a look:
+```
+Time taken for tests:   56.109 seconds
+...
+Non-2xx responses:      49
 ```
 
 #### Edit `src/nginx/nginx.conf`
