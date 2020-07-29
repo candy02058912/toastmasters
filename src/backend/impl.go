@@ -4,15 +4,14 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"os"
+	"sync"
 	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/schema"
-	"github.com/gorilla/sessions"
 )
 
-var bufferSize int = 1
+var bufferSize int = 3
 
 var waitTimeMap = map[string]string{
 	"plain":      "3000ms",
@@ -23,22 +22,27 @@ var waitTimeMap = map[string]string{
 type impl struct {
 	waitTime  time.Duration
 	toastType string
+	l         sync.Mutex
 	c         chan int
+	count     int
 }
 
-var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
-
 func (s *impl) h1Handler(w http.ResponseWriter, r *http.Request) {
-	// occupy some memory for no reason.
-	var a [100000]int
-	a[2] = 1
+
+	s.l.Lock()
+	s.count++
+	s.l.Unlock()
+
+	tmp := <-s.c
+
+	if s.count > bufferSize {
+		log.Fatal("request limit exceed.")
+	}
 
 	req := h1request{}
 	schema.NewDecoder().Decode(&req, r.URL.Query())
 
-	tmp := <-s.c
-
-	log.Printf("h1, %v: %v", tmp, req)
+	log.Printf("h1: %v", req)
 	time.Sleep(s.waitTime)
 
 	resp := h1response{
@@ -46,17 +50,11 @@ func (s *impl) h1Handler(w http.ResponseWriter, r *http.Request) {
 		TimeStamp: time.Now().Unix(),
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(resp)
+	s.c <- tmp + 1
 
-	s.c <- tmp + 1 + a[3]
-}
-
-func (s *impl) h2Handler(w http.ResponseWriter, r *http.Request) {
-	req := h1request{}
-	schema.NewDecoder().Decode(&req, r.URL.Query())
-
-	resp := h2response{}
+	s.l.Lock()
+	s.count--
+	s.l.Unlock()
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(resp)
@@ -75,15 +73,12 @@ func NewServer(port string, toastType string) http.Server {
 	i := impl{
 		waitTime:  wt,
 		toastType: toastType,
+		count:     0,
 		c:         make(chan int, bufferSize),
 	}
-
-	for idx := 0; idx < bufferSize; idx++ {
-		i.c <- idx
-	}
+	i.c <- 0
 
 	r.HandleFunc("/h1", i.h1Handler).Methods("GET")
-	r.HandleFunc("/h2", i.h2Handler).Methods("GET")
 
 	return http.Server{
 		Handler:      r,
