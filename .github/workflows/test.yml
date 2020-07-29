@@ -81,9 +81,10 @@ jobs:
         docker exec $name sh /push_record.sh ${{ github.actor }} ${{steps.test2.outputs.score}} ${{ secrets.AIRTABLE_API_KEY }}
 
     - name: Comment result to PR
-      uses: unsplash/comment-on-pr@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-      with:
-        msg: "Low concurrency test: ${{steps.test1.outputs.result1}}\nHigh concurrency test: ${{steps.test2.outputs.result2}}"
-        check_for_duplicate_msg: false  # OPTIONAL 
+      run: |
+        curl --location --request POST 'https://hook.integromat.com/4rkwplkkp8d7cja7xnuckvb42eatl6up' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{
+            "issue": "10",
+            "message": "Low concurrency test: ${{steps.test1.outputs.result1}}\nHigh concurrency test: ${{steps.test2.outputs.result2}}"
+        }'
