@@ -173,6 +173,18 @@ scripts/run.sh -t 2
 scrupts/run.sh
 ```
 
+Monitor the service:
+
+```
+docker stats
+CONTAINER ID        NAME                                          CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O           PIDS
+723109f3b483        demo_strawberry.1.yugi4i6j8g07j4ak09vq2uc2o   0.00%               1.16MiB / 5MiB        23.20%              1.78kB / 0B         0B / 0B             5
+c3a277e1093c        demo_plain.1.728f24hul2e0177auwfqp4rhk        0.00%               1.148MiB / 5MiB       22.97%              1.78kB / 0B         0B / 0B             6
+379b48c1fe86        demo_chocolate.1.l3980tsvgqp8araf8c2y7f6tl    0.00%               1.145MiB / 5MiB       22.89%              1.78kB / 0B         0B / 0B             6
+2c17680b2ab1        demo_nginx.1.iq8w5mabcum8yuitskt69y89w        0.00%               4.418MiB / 7.779GiB   0.06%               263kB / 335kB       0B / 0B             5
+860ed21cbdb1        demo_tester.1.uf5u6822lowrtll2wry2hikmy       0.00%               296KiB / 7.779GiB     0.00%               2.07kB / 42B        0B / 0B             1
+```
+
 The metrics you should take a look:
 ```
 Time taken for tests:   56.109 seconds
