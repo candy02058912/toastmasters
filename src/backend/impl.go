@@ -16,7 +16,7 @@ var bufferSize int = 3
 var waitTimeMap = map[string]string{
 	"plain":      "3000ms",
 	"chocolate":  "2500ms",
-	"strawberry": "000ms",
+	"strawberry": "1000ms",
 }
 
 type impl struct {
