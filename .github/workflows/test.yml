@@ -85,6 +85,6 @@ jobs:
         curl --location --request POST 'https://hook.integromat.com/4rkwplkkp8d7cja7xnuckvb42eatl6up' \
         --header 'Content-Type: application/json' \
         --data-raw '{
-            "issue": "10",
+            "issue": "${{github.event.number}}",
             "message": "Low concurrency test: ${{steps.test1.outputs.result1}}\nHigh concurrency test: ${{steps.test2.outputs.result2}}"
         }'
