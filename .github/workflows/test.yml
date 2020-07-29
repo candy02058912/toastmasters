@@ -60,7 +60,7 @@ jobs:
         chmod +x ./scripts/scale_swarm.sh
         ./scripts/scale_swarm.sh $(awk '{if (NR != 0) {print "-s " $1 " -r " $2 }}' scale.conf)
 
-    - name: High concurrenct test
+    - name: High concurrency test
       id: test2
       run: |
         name="$(docker ps -aqf name=demo_tester)"
@@ -75,18 +75,13 @@ jobs:
         echo "::set-output name=result2::$result2"
         echo "::set-output name=score2::$total2"
 
-    - name: Push to AirTable
-      env:
-        AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
-      run: |
-        name="$(docker ps -aqf name=demo_tester)"
-        docker exec $name sh /push_record.sh ${{ github.actor }} ${{steps.test2.outputs.score2}} $AIRTABLE_API_KEY
-
-    - name: Comment result to PR
+    - name: Push to AirTable and Comment result to PR
       run: |
         curl --location --request POST 'https://hook.integromat.com/4rkwplkkp8d7cja7xnuckvb42eatl6up' \
         --header 'Content-Type: application/json' \
         --data-raw '{
+            "username": "${{ github.actor }}",
+            "score": "${{steps.test2.outputs.score2}}",
             "issue": "${{github.event.number}}",
             "message": "Low concurrency test: ${{steps.test1.outputs.result1}}\nHigh concurrency test: ${{steps.test2.outputs.result2}}"
         }'
