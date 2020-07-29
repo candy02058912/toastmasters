@@ -30,7 +30,7 @@ var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
 
 func (s *impl) h1Handler(w http.ResponseWriter, r *http.Request) {
 	// occupy some memory for no reason.
-	var a [100000]int
+	var a [150000]int
 	a[2] = 1
 
 	req := h1request{}
