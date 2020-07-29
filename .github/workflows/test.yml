@@ -76,9 +76,11 @@ jobs:
         echo "::set-output name=score2::$total2"
 
     - name: Push to AirTable
+      env:
+        AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
       run: |
         name="$(docker ps -aqf name=demo_tester)"
-        docker exec $name sh /push_record.sh ${{ github.actor }} ${{steps.test2.outputs.score2}} ${{ secrets.AIRTABLE_API_KEY }}
+        docker exec $name sh /push_record.sh ${{ github.actor }} ${{steps.test2.outputs.score2}} $AIRTABLE_API_KEY
 
     - name: Comment result to PR
       run: |
