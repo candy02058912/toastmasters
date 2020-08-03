@@ -83,5 +83,5 @@ jobs:
             "username": "${{ github.event.pull_request.user.login }}",
             "score": "${{ steps.test2.outputs.score2 }}",
             "issue": "${{ github.event.number }}",
-            "message": "Low concurrency test: ${{ steps.test1.outputs.result1 }}\\nHigh concurrency test: ${{ steps.test2.outputs.result2 }}"
+            "message": "Low concurrency test: ${{ steps.test1.outputs.result1 }}<br />High concurrency test: ${{ steps.test2.outputs.result2 }}"
         }'
